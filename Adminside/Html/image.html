@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>image</title>
+</head>
+<body>
+    <form action="#" name="iform" id="iform" enctype="multipart/form-data">
+
+        <input type="hidden" id="hid" name="hid" value="">
+
+        <input type="hidden" id="proimgupdate" name="proimgupdate">
+        
+        <label>Product Category :- </label>
+        <select name="Proid" id="Proid">
+            <option value=""> -- Select Item -- </option>
+        </select><br><br>
+
+        <label>Product Name :- </label>
+        <input type="text" name="proName" id="proName"><br><br>
+
+        <label>Price :- </label>
+        <input type="text" name="proPrice" id="proPrice"><br><br>
+
+        <label>Product Image :- </label>
+        <input type="file" name="proImg" id="proImg"><br><br>
+        
+        <input type="button" name="saveData" id="saveData" value="save"><br><br>
+        
+        <!-- <img src="" name="prod_Img" id="prod_Img" height="150px" width="150px"><br><br> -->
+
+        <table border="3" id="itable"></table>
+    </form>
+
+
+    <img alt="" id="img1">
+
+    <script src="../Js/image.js"></script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+
+    <title>Hexashop - Product Detail Page</title>
+
+    <link rel="stylesheet" type="text/css" href="../Clientside/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="../Clientside/css/font-awesome.css">
+
+    <link rel="stylesheet" href="../Clientside/css/templatemo-hexashop.css">
+
+    <link rel="stylesheet" href="../Clientside/css/owl-carousel.css">
+
+    <link rel="stylesheet" href="../Clientside/css/lightbox.css">
+
+</head>
+
+<body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="index.html" class="logo">
+                            <img src="../Clientside/images/logo.png">
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+
+                        <ul class="nav" id="navbar-nav10">
+
+                        </ul>
+
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Main Banner Area Start ***** -->
+    <div class="page-heading" id="top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="inner-content">
+                        <h2>Single Product Page</h2>
+                        <span>Awesome &amp; Creative HTML CSS layout by TemplateMo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area End ***** -->
+
+
+    <!-- Cart Detail Start -->
+
+    <table class="border" id="cart-table" style="width: 100%;">
+
+        <script>
+
+            // Add to cart
+
+            addtocartdisplay();
+
+            function addtocart(id) {
+                let data = JSON.parse(localStorage.getItem("prodetail"));
+                let addtocartdata = JSON.parse(localStorage.getItem("cartdetail"));
+                let addtocartsave = {};
+                let addtocartsave2 = {};
+
+                if (addtocartdata != null) {
+                    for (let i = 0; i < data.productDetail.length; i++) {
+                        if (id == data.productDetail[i].id) {
+                            let len = addtocartdata.length;
+                            addtocartsave = {
+                                id: len + 1,
+                                name: data.productDetail[i].name,
+                                img: data.productDetail[i].image,
+                                price: data.productDetail[i].price
+                            }
+                            addtocartdata.push(addtocartsave);
+                            addtocartsave2 = addtocartdata;
+                            localStorage.setItem("cartdetail", JSON.stringify(addtocartsave2));
+                        }
+                    }
+                    document.getElementById("cartbadge").style.display = "block";
+                } else {
+
+                    for (let i = 0; i < data.productDetail.length; i++) {
+                        if (id == data.productDetail[i].id) {
+                            addtocartsave = {
+                                id: 1,
+                                name: data.productDetail[i].name,
+                                img: data.productDetail[i].image,
+                                price: data.productDetail[i].price
+                            };
+                        }
+                    }
+                    localStorage.setItem("cartdetail", JSON.stringify([addtocartsave]));
+                    document.getElementById("cartbadge").style.display = "block";
+                }
+                addtocartdisplay();
+            }
+
+            function addtocartdisplay() {
+                let data = JSON.parse(localStorage.getItem("cartdetail"));
+                let row3 = '';
+                let sum = 0;
+                if (data != null) {
+                    row3 += "<tr class='border'>";
+                    row3 += "<th class='border border-end text-dark'><center>Id</center></th>";
+                    row3 += "<th class='border border-end text-dark'><center>Name</center></th>";
+                    row3 += "<th class='border border-end text-dark'><center>Product</center></th>";
+                    row3 += "<th class='border border-end text-dark'><center>Price</center></th>";
+                    row3 += "<th class='text-dark'><center>Action</center></th>";
+                    row3 += "</tr>";
+
+                    for (let i = 0; i < data.length; i++) {
+                        row3 += "<tr class='border'>";
+                        row3 += "<td class='border border-end text-dark'><center>" + data[i].id + "</center></td>";
+                        row3 += "<td class='border border-end text-dark'><center>" + data[i].name + "</center></td>";
+                        row3 += "<td class='border border-end'><center> <img src='" + data[i].img + "' height='120px' width='130px'> </center></td>";
+                        row3 += "<td class='border border-end'><center>" + "₹" + data[i].price + "</center></td>";
+                        row3 += "<td><center> <input type='button' name='del' id='del' onclick='delcartdata(" + data[i].id + ")' value='Delete'></center></td>";
+                        row3 += "</tr>";
+                        sum += parseInt(data[i].price);
+                    }
+                }
+                row3 += "<td class='border border-end text-dark' style='font-weight: bold;' colspan='3'><center>Total Amount</center></td>";
+                row3 += "<td colspan='2'><center>₹" + sum + "</center></td>";
+                document.getElementById("cart-table").innerHTML = row3;
+            }
+
+            // Delete cart data
+
+            function delcartdata(id) {
+                let data = JSON.parse(localStorage.getItem("cartdetail"));
+                if (data != null) {
+                    for (let i = 0; i < data.length; i++) {
+                        if (id == data[i].id) {
+                            let id2 = id - 1;
+                            data.splice(id2, 1);
+                            let j = 1;
+                            for (let i = 0; i < data.length; i++) {
+                                data[i].id = j;
+                                j++;
+                            }
+                            localStorage.setItem("cartdetail", JSON.stringify(data));
+                            addtocartdisplay();
+                        }
+                    }
+                }
+            }
+
+        </script>
+
+    </table>
+
+    <!-- Cart Detail End -->
+
+
+    <!-- ***** Footer Start ***** -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="first-item">
+                        <div class="logo">
+                            <img src="../Clientside/images/white-logo.png" alt="hexashop ecommerce templatemo">
+                        </div>
+                        <ul>
+                            <li><a href="#">16501 Collins Ave, Sunny Isles Beach, FL 33160, United States</a></li>
+                            <li><a href="#">hexashop@company.com</a></li>
+                            <li><a href="#">010-020-0340</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Shopping &amp; Categories</h4>
+                    <ul>
+                        <li><a href="#">Men’s Shopping</a></li>
+                        <li><a href="#">Women’s Shopping</a></li>
+                        <li><a href="#">Kid's Shopping</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Homepage</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h4>Help &amp; Information</h4>
+                    <ul>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">FAQ's</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Tracking ID</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-12">
+                    <div class="under-footer">
+                        <p>Copyright © 2022 HexaShop Co., Ltd. All Rights Reserved.
+
+                            <br>Design: <a href="https://templatemo.com" target="_parent"
+                                title="free css templates">TemplateMo</a>
+                        </p>
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- jQuery -->
+    <script src="../Clientside/js/jquery-2.1.0.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="../Clientside/js/popper.js"></script>
+    <script src="../Clientside/js/bootstrap.min.js"></script>
+
+    <!-- Plugins -->
+    <script src="../Clientside/js/owl-carousel.js"></script>
+    <script src="../Clientside/js/accordions.js"></script>
+    <script src="../Clientside/js/datepicker.js"></script>
+    <script src="../Clientside/js/scrollreveal.min.js"></script>
+    <script src="../Clientside/js/waypoints.min.js"></script>
+    <script src="../Clientside/js/jquery.counterup.min.js"></script>
+    <script src="../Clientside/js/imgfix.min.js"></script>
+    <script src="../Clientside/js/slick.js"></script>
+    <script src="../Clientside/js/lightbox.js"></script>
+    <script src="../Clientside/js/custom.js"></script>
+
+    <!-- Global Init -->
+    <script src="../Clientside/js/custom.js"></script>
+    <script src="../Clientside/Mannual/mannual.js"></script>
+
+    <script>
+
+        $(function () {
+            var selectedClass = "";
+            $("p").click(function () {
+                selectedClass = $(this).attr("data-rel");
+                $("#portfolio").fadeTo(50, 0.1);
+                $("#portfolio div").not("." + selectedClass).fadeOut();
+                setTimeout(function () {
+                    $("." + selectedClass).fadeIn();
+                    $("#portfolio").fadeTo(50, 1);
+                }, 500);
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
